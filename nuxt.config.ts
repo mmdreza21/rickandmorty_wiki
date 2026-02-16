@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   ],
   devtools: { enabled: true },
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss() as any],
   },
   routeRules: {},
   plugins: [
