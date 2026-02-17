@@ -26,3 +26,4 @@ yarn.lock
 package-lock.json
 nodesource_setup.sh
 ecosystem.config.cjs
+.netlify
