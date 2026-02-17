@@ -17,7 +17,11 @@ export default defineNuxtConfig({
     { src: "~/plugins/api_client" },
   ],
   build: {},
-  modules: ["@vueuse/nuxt", "@nuxt/image", "@pinia/nuxt",],
+  modules: [
+    "@vueuse/nuxt",
+    "@nuxt/image",
+    "@pinia/nuxt",
+  ],
 
   app: {
     head: {
@@ -29,7 +33,9 @@ export default defineNuxtConfig({
     },
   },
 
-
+  nitro: {
+    preset: 'netlify'
+  },
   compatibilityDate: "2026-01-01",
 
   runtimeConfig: {
