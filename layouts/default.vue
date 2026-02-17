@@ -4,7 +4,7 @@
   <div class="min-h-screen bg-[#0f1115] text-gray-200 flex flex-col">
     <LayoutHeader />
     <main>
-      <div class="px-[156px]">
+      <div class="bg-dark-bg">
         <slot />
       </div>
     </main>
