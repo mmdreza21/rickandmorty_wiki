@@ -28,14 +28,11 @@ export default defineNuxtConfig({
       meta: [
         { charset: "utf-8" },
       ],
-      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.png" }],
       script: [],
     },
   },
 
-  nitro: {
-    preset: 'netlify'
-  },
   compatibilityDate: "2026-01-01",
 
   runtimeConfig: {

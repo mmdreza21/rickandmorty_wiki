@@ -11,7 +11,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@netlify/nuxt": "^0.2.22",
+
     "@nuxt/image": "^1.7.0",
     "@types/node": "^24.7.0",
     "@types/qs": "^6.9.15",
