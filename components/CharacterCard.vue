@@ -1,19 +1,17 @@
 <!-- components/CharacterCard.vue -->
 <script setup lang="ts">
 import { computed } from "vue";
+import type { Character } from "~/types/character";
 
 interface Props {
-  name: string;
-  status: "Alive" | "Dead" | "unknown";
-  species: string;
-  image: string;
-  type?: string;
+  character: Character;
 }
 
-const props = defineProps<Props>();
+const { character } = defineProps<Props>();
+const { id, name, status, species, image } = character;
 
 const getStatusColor = computed(() => {
-  switch (props.status) {
+  switch (status) {
     case "Alive":
       return "#00FF80";
     case "Dead":
@@ -24,23 +22,23 @@ const getStatusColor = computed(() => {
 });
 
 const statusText = computed(() => {
-  if (props.status === "unknown") {
-    return `Unknown - ${props.species}`;
+  if (status === "unknown") {
+    return `Unknown - ${species}`;
   }
-  return `${props.status} - ${props.species}`;
+  return `${status} - ${species}`;
 });
 
 // Use NuxtImage for optimized images
 const imageUrl = computed(() => {
-  return props.image || "/placeholder-character.jpg";
+  return image || "/images/placeholder-character.png";
 });
 </script>
 
 <template>
-  <div
-    class="flex flex-col items-start p-4 gap-4 w-[384px] h-[459px] border border-dark-border rounded-2xl bg-dark-bg hover:border-yellow-primary/50 transition-colors duration-300"
+  <NuxtLink
+    :to="`/character/${id}`"
+    class="flex flex-col items-start p-4 gap-4 w-[384px] h-[459px] border border-transparent hover:border-dark-border rounded-2xl bg-dark-bg transition-colors duration-300"
   >
-    <!-- Image -->
     <div
       class="relative w-[352px] h-[352px] bg-gray-100 rounded-lg overflow-hidden"
     >
@@ -48,12 +46,11 @@ const imageUrl = computed(() => {
         v-if="image"
         :src="imageUrl"
         :alt="name"
-        class="w-full h-full object-cover"
+        class="w-full h-full object-cover rounded-lg"
         loading="lazy"
         format="webp"
         quality="80"
       />
-      <!-- Fallback Pattern if no image -->
       <div v-else class="absolute inset-0 flex items-center justify-center">
         <div class="relative w-32 h-32">
           <div
@@ -66,15 +63,11 @@ const imageUrl = computed(() => {
       </div>
     </div>
 
-    <!-- Character Info -->
     <div class="flex flex-col items-end w-full gap-2">
-      <h3 class="text-white font-bold text-xl truncate w-full text-right">
+      <h3 class="text-white font-bold text-xl truncate w-full">
         {{ name }}
       </h3>
-      <p v-if="type" class="text-gray-400 text-sm">{{ type }}</p>
     </div>
-
-    <!-- Status -->
     <div class="flex items-center gap-2">
       <span
         class="w-3 h-3 rounded-full"
@@ -82,5 +75,5 @@ const imageUrl = computed(() => {
       ></span>
       <span class="text-white text-base">{{ statusText }}</span>
     </div>
-  </div>
+  </NuxtLink>
 </template>
