@@ -29,11 +29,3 @@ export interface ApiResponse<T> {
     };
     results: T[];
 }
-
-export interface CharacterCardProps {
-    name: string;
-    status: 'Alive' | 'Dead' | 'unknown';
-    species: string;
-    image: string;
-    type?: string;
-}

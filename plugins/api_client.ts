@@ -22,7 +22,9 @@ export default defineNuxtPlugin({
       onResponse({ response }) {
       },
       onResponseError({ response }) {
-        throw new Error(response._data.message as string);
+        console.log(response);
+
+        throw new Error(response._data.error || "An error occurred while fetching data.");
       },
     });
     return {

@@ -26,10 +26,9 @@ const { data: episodes } = await useAsyncData<Episode[]>(
   },
 );
 
-const { data: locations } = await useAsyncData<Location>(
+const { data: location } = await useAsyncData<Location>(
   `character-locations-${route.params.id}`,
   () => getMultipleLocations(character.value?.location.url),
-  {},
 );
 
 const getStatusColor = (status: string) => {
@@ -105,7 +104,7 @@ const getStatusColor = (status: string) => {
     </div>
 
     <div class="px-4 md:px-[156px] pb-16 mt-16">
-      <div v-if="episodes.length" class="flex flex-col items-start gap-6 mb-6">
+      <div v-if="episodes.length" class="flex flex-col items-start mb-6">
         <div class="flex">
           <NuxtImg
             class="w-[24px] h-[24px] mt-1 mr-3"
@@ -114,7 +113,7 @@ const getStatusColor = (status: string) => {
           <h2 class="text-white font-medium text-2xl">Episodes</h2>
         </div>
         <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full mt-6"
         >
           <EpisodeCard
             v-for="episode in episodes"
@@ -124,7 +123,7 @@ const getStatusColor = (status: string) => {
         </div>
       </div>
 
-      <div v-if="locations" class="flex flex-col items-start mt-16">
+      <div v-if="location" class="flex flex-col items-start mt-16">
         <div class="flex mb-6">
           <NuxtImg
             class="w-[24px] h-[24px] mt-1 mr-3"
@@ -136,7 +135,7 @@ const getStatusColor = (status: string) => {
         <div
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full"
         >
-          <LocationCard :location="locations" />
+          <LocationCard :location="location" />
         </div>
       </div>
     </div>

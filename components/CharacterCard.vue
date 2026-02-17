@@ -28,7 +28,6 @@ const statusText = computed(() => {
   return `${status} - ${species}`;
 });
 
-// Use NuxtImage for optimized images
 const imageUrl = computed(() => {
   return image || "/images/placeholder-character.png";
 });

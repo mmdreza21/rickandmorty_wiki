@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "#imports";
+import { useDebounceFn } from "@vueuse/core";
 
 const props = defineProps<{
   totalPages: number;
@@ -42,11 +43,28 @@ const visiblePages = computed(() => {
   return result;
 });
 
-const goToPage = (page: number) => {
+const pendingPage = ref<number | null>(null);
+
+const debouncedNavigate = useDebounceFn((page: number) => {
+  pendingPage.value = null;
   router.push({
     query: { ...route.query, page },
   });
+}, 1000); // Handle page change with debounce cuse the api gives us 429 too many requests in a short time
+
+const goToPage = (page: number) => {
+  if (page < 1 || page > props.totalPages || page === currentPage.value) return;
+
+  pendingPage.value = page;
+  debouncedNavigate(page);
 };
+
+watch(
+  () => route.query.page,
+  () => {
+    pendingPage.value = null;
+  },
+);
 </script>
 
 <template>
@@ -54,16 +72,18 @@ const goToPage = (page: number) => {
     <div class="flex items-center gap-2">
       <button
         @click="goToPage(1)"
-        :disabled="currentPage === 1"
-        class="w-8 h-8 disabled:opacity-50"
+        :disabled="currentPage === 1 || pendingPage !== null"
+        class="w-8 h-8 disabled:opacity-50 hover:text-yellow-primary transition-colors"
+        aria-label="First page"
       >
         «
       </button>
 
       <button
         @click="goToPage(currentPage - 1)"
-        :disabled="currentPage === 1"
-        class="w-8 h-8 disabled:opacity-50"
+        :disabled="currentPage === 1 || pendingPage !== null"
+        class="w-8 h-8 disabled:opacity-50 hover:text-yellow-primary transition-colors"
+        aria-label="Previous page"
       >
         ‹
       </button>
@@ -72,11 +92,14 @@ const goToPage = (page: number) => {
         <button
           v-if="page !== '...'"
           @click="goToPage(page as number)"
+          :disabled="pendingPage !== null"
           :class="[
-            'w-8 h-8 rounded-full text-sm',
-            currentPage === page
-              ? 'bg-yellow-primary text-[#00333D]'
-              : 'text-gray-400 hover:bg-gray-700',
+            'w-8 h-8 rounded-full text-sm transition-colors',
+            pendingPage === page
+              ? 'bg-yellow-primary/50 text-[#00333D] animate-pulse'
+              : currentPage === page
+                ? 'bg-yellow-primary text-[#00333D]'
+                : 'text-gray-400 hover:bg-gray-700 hover:text-white',
           ]"
         >
           {{ page }}
@@ -91,16 +114,18 @@ const goToPage = (page: number) => {
 
       <button
         @click="goToPage(currentPage + 1)"
-        :disabled="currentPage === totalPages"
-        class="w-8 h-8 disabled:opacity-50"
+        :disabled="currentPage === totalPages || pendingPage !== null"
+        class="w-8 h-8 disabled:opacity-50 hover:text-yellow-primary transition-colors"
+        aria-label="Next page"
       >
         ›
       </button>
 
       <button
         @click="goToPage(totalPages)"
-        :disabled="currentPage === totalPages"
-        class="w-8 h-8 disabled:opacity-50"
+        :disabled="currentPage === totalPages || pendingPage !== null"
+        class="w-8 h-8 disabled:opacity-50 hover:text-yellow-primary transition-colors"
+        aria-label="Last page"
       >
         »
       </button>

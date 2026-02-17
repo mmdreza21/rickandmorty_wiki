@@ -8,12 +8,12 @@ defineProps<{
 
 <template>
   <div
-    class="w-[384px] h-[126px] bg-card-bg rounded-2xl p-4 flex flex-col items-start gap-3"
+    class="max-w-[384px] h-[126px] bg-card-bg rounded-2xl p-4 flex flex-col items-start gap-3"
   >
     <h3 class="text-white font-bold text-xl">
       {{
-        episode.name.length > 30
-          ? episode.name.slice(0, 30) + "..."
+        episode.name.length > 15
+          ? episode.name.slice(0, 15) + "..."
           : episode.name
       }}
     </h3>

@@ -6,7 +6,7 @@ const router = useRouter();
 const { getCharacters } = useCharacters();
 
 const searchQuery = ref("");
-const debouncedSearch = refDebounced(searchQuery, 500);
+const debouncedSearch = refDebounced(searchQuery, 1000);
 
 const page = computed(() => Number(route.query.page ?? 1));
 
@@ -30,7 +30,7 @@ watch(debouncedSearch, () => {
 </script>
 
 <template>
-  <SearchSection v-model="searchQuery" />
+  <SearchSection :is-searching="isLoading" v-model="searchQuery" />
 
   <div class="pb-16 relative">
     <div class="bg-dark-bg rounded-2xl py-6">
@@ -51,9 +51,8 @@ watch(debouncedSearch, () => {
           </button>
         </div>
       </div>
-
       <div
-        v-else-if="!characters.length"
+        v-else-if="!characters"
         class="flex justify-center items-center h-[600px]"
       >
         <p class="text-gray-400">No characters found</p>
@@ -71,22 +70,3 @@ watch(debouncedSearch, () => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.grid-pattern {
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(
-      circle at 20% 30%,
-      rgba(153, 156, 159, 0.18) 1px,
-      transparent 1px
-    ),
-    radial-gradient(
-      circle at 80% 70%,
-      rgba(153, 156, 159, 0.18) 1px,
-      transparent 1px
-    );
-  background-size: 50px 50px;
-}
-</style>
