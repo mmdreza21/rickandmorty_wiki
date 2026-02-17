@@ -28,7 +28,7 @@ export default defineNuxtConfig({
       meta: [
         { charset: "utf-8" },
       ],
-      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.png" }],
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
       script: [],
     },
   },
@@ -37,7 +37,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      BASEURL: "https://rickandmortyapi.com",
+      BASEURL: process.env.BASEURL,
     },
   },
 });
