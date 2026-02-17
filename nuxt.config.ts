@@ -33,6 +33,9 @@ export default defineNuxtConfig({
     },
   },
 
+  nitro: {
+    preset: 'netlify'
+  },
   compatibilityDate: "2026-01-01",
 
   runtimeConfig: {
